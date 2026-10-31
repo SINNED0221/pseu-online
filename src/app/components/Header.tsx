@@ -10,6 +10,7 @@ type HeaderProps = {
     isReady: boolean
     isRunning: boolean
     clearTerminal: () => void
+    downloadCurrentFile: () => void
 }
 
 export default function Header(props: HeaderProps) {
@@ -36,6 +37,7 @@ export default function Header(props: HeaderProps) {
                 disabled={!props.isReady}>Run</button>
             }
             <button className={barButton} onClick={props.clearTerminal}>Clear</button>
+            <button className={barButton} onClick={props.downloadCurrentFile}>Download file</button>
         </header>
     )
 }

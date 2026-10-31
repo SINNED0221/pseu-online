@@ -7,6 +7,7 @@ import FileBar from "./components/FileBar";
 import Editor from "./components/Editor";
 import Terminal, { type TerminalHandle, } from "./components/Terminal";
 import PythonRuntime from "@/lib/PythonRuntime";
+import { downloadFile } from "@/lib/downloadFile";
 
 import {
   createFile as createStoredFile,
@@ -277,6 +278,11 @@ OUTPUT name`,
     addLineTerminal("Program interuptted by user input")
   }
 
+  function downloadCurrentFile() {
+    if (!currentFile) return;
+    downloadFile(currentFile.name, currentFile.code);
+  }
+
   useEffect(() => {
     terminalRef.current?.onInput((data) => {
       console.log("Sending input to Python:", JSON.stringify(data));
@@ -298,6 +304,7 @@ OUTPUT name`,
         isReady={isReady}
         isRunning={isRunning}
         clearTerminal={clearTerminal}
+        downloadCurrentFile={downloadCurrentFile}
       />
       <div className="workspace">
         <FileBar
