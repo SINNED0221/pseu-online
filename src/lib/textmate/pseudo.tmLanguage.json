@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "CAIE Pseudocode",
+  "scopeName": "source.caie",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#invalid" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.caie",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.caie",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.caie",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.caie",
+          "match": "\\b(OF|APPEND|ARRAY|BYREF|BYVAL|CALL|CASE|CLASS|CLOSEFILE|CONSTANT|DECLARE|ELSE|ENDCASE|ENDCLASS|ENDFUNCTION|ENDIF|ENDPROCEDURE|ENDTYPE|ENDWHILE|EOF|FALSE|FOR|TO|FUNCTION|GETRECORD|IF|INHERITS|INPUT|LCASE|LENGTH|MID|NEXT|NEW|OPENFILE|OTHERWISE|OUTPUT|PROCEDURE|PRIVATE|PUBLIC|PUTRECORD|RAND|RANDOM|READ|READFILE|REPEAT|RETURN|RETURNS|RIGHT|SEEK|STEP|SUPER|THEN|TRUE|UNTIL|WHILE|WRITE|WRITEFILE)\\b"
+        },
+        {
+          "name": "keyword.operator.caie",
+          "match": "\\b(DIV|AND|OR|NOT|MOD)\\b|←|<-|[=+*/-]"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.caie",
+          "match": "\\b(CHAR|DATE|BOOLEAN|STRING|INTEGER|INT|REAL)\\b"
+        }
+      ]
+    },
+    "invalid": {
+      "patterns": [
+        {
+          "name": "invalid.illegal.caie",
+          "match": "\\b(of|and|append|array|boolean|byref|byval|call|case|char|class|closefile|constant|date|declare|div|else|endcase|endclass|endfunction|endif|endprocedure|endtype|endwhile|eof|false|for|to|function|getrecord|if|inherits|input|int|integer|lcase|length|mid|mod|next|new|not|openfile|or|otherwise|output|procedure|private|public|putrecord|rand|random|read|readfile|real|repeat|return|returns|right|seek|step|string|super|then|true|type|ucase|until|while|write|writefile)\\b"
+        }
+      ]
+    }
+  }
+}

@@ -249,6 +249,11 @@ OUTPUT name`,
   function run() {
     if (!isReady || isRunning) return;
 
+    if (!currentFile?.name.toLowerCase().endsWith(".pseu")) {
+        addRedTerminal("Only files with .pseu extension can be executed!");
+        return;
+    }
+
     const code = currentFile?.code;
 
     if (code === undefined) {
