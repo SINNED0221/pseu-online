@@ -324,10 +324,18 @@ OUTPUT name`,
             fileContent={currentFile?.code ?? ""}
             updateFileContent={updateFileContent}
           />
-          <Terminal ref={terminalRef} />
+          <section className="terminal-panel" aria-label="Program output terminal">
+            <div className="terminal-toolbar">
+              <div className="terminal-title">
+                <span className="terminal-prompt" aria-hidden="true">&gt;_</span>
+                <h2>Console</h2>
+              </div>
+              <span className="terminal-hint">Output and input</span>
+            </div>
+            <Terminal ref={terminalRef} />
+          </section>
         </div>
       </div>
     </main>
   );
 }
-

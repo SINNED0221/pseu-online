@@ -27,8 +27,30 @@ const Terminal = forwardRef<TerminalHandle>(function Terminal(_, ref) {
 
     const terminal = new XTerm({
       cursorBlink: true,
-      fontSize: 18,
-      fontFamily: "monospace",
+      fontSize: 13,
+      fontFamily: "var(--font-geist-mono), Consolas, monospace",
+      theme: {
+        background: "#101722",
+        foreground: "#d8e2ee",
+        cursor: "#73e0b2",
+        selectionBackground: "#315548",
+        black: "#17212d",
+        red: "#f27b83",
+        green: "#73e0b2",
+        yellow: "#e0ad68",
+        blue: "#71b7ff",
+        magenta: "#c5a5f5",
+        cyan: "#74d8dc",
+        white: "#d8e2ee",
+        brightBlack: "#64748b",
+        brightRed: "#ff939a",
+        brightGreen: "#8aebc2",
+        brightYellow: "#f0c47e",
+        brightBlue: "#8cc5ff",
+        brightMagenta: "#d3baff",
+        brightCyan: "#91e4e6",
+        brightWhite: "#f5f8fc",
+      },
     });
 
     const fitAddon = new FitAddon();

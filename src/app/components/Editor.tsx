@@ -40,7 +40,15 @@ const handleEditorMount: OnMount = async (editor, monaco) => {
         foreground: "D4D4D4",
       },
     ],
-    colors: {},
+    colors: {
+      "editor.background": "#101722",
+      "editor.lineHighlightBackground": "#17212d",
+      "editorLineNumber.foreground": "#64748b",
+      "editorLineNumber.activeForeground": "#c5d2e0",
+      "editorGutter.background": "#101722",
+      "editorCursor.foreground": "#73e0b2",
+      "editor.selectionBackground": "#294c42",
+    },
   });
 
   monaco.editor.setTheme("caie-dark");
@@ -62,8 +70,17 @@ const handleEditorMount: OnMount = async (editor, monaco) => {
 
 export default function Editor(props: EditorProps) {
     return (
-        <section className="editor">
-            <h3>{props.filename}</h3>
+        <section className="editor" aria-label="Pseudocode editor">
+            <div className="editor-toolbar">
+                <div className="editor-file">
+                    <span className="file-icon" aria-hidden="true">P</span>
+                    <div className="editor-file-copy">
+                        <h2>{props.filename || "No file selected"}</h2>
+                        <p>Workspace / {props.filename || "Untitled"}</p>
+                    </div>
+                </div>
+                <span className="language-badge">PSEUDOCODE</span>
+            </div>
 
             <MonacoEditor
                 className="code"

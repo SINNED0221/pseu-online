@@ -24,15 +24,20 @@ type FileProps = {
 export default function FileBar(props: FileProps) {
   return (
     <aside className="filebar">
-      <h1>{props.title}</h1>
+      <div className="filebar-heading">
+        <h2>{props.title}</h2>
+        <span className="file-count">{props.files.length}</span>
+      </div>
 
-      {props.files.map((file) => (
-        <FileItem
-          key={file.id}
-          file={file}
-          props={props}
-        />
-      ))}
+      <nav className="file-list" aria-label="Project files">
+        {props.files.map((file) => (
+          <FileItem
+            key={file.id}
+            file={file}
+            props={props}
+          />
+        ))}
+      </nav>
     </aside>
   );
 }
@@ -49,17 +54,22 @@ function FileItem({
   const isCurrent = file.id === props.currentFile?.id;
 
   return (
-    <div
-      onClick={() => {
-        props.setCurrentFile(file);
-        props.setIsRenaming(false);
-      }}
-      className={isCurrent ? "selected-file" : ""}
-    >
+    <div>
       {isCurrent && props.isRenaming ? (
         <RenameField props={props} />
       ) : (
-        isCurrent ? <b>{file.name}</b> : file.name
+        <button
+          type="button"
+          onClick={() => {
+            props.setCurrentFile(file);
+            props.setIsRenaming(false);
+          }}
+          className={`file-item${isCurrent ? " selected-file" : ""}`}
+          aria-current={isCurrent ? "page" : undefined}
+        >
+          <span className="file-icon" aria-hidden="true">P</span>
+          <span className="file-name">{file.name}</span>
+        </button>
       )}
     </div>
   );
@@ -73,9 +83,10 @@ function RenameField({
   const [error, setError] = useState("");
 
   return (
-    <div>
+    <div className="rename-field">
       <input
         autoFocus
+        aria-label="Rename file"
         value={props.newFileName}
         onClick={(event) => event.stopPropagation()}
         onChange={(event) => {
