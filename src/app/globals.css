@@ -8,8 +8,8 @@
   --text-primary: #e7edf5;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --accent: #73e0b2;
-  --accent-hover: #8aebc2;
+  --accent: #db79fc;
+  --accent-hover: #e7a7fc;
   --danger: #f27b83;
   --font-mono: var(--font-geist-mono), "Cascadia Code", Consolas, monospace;
 }
@@ -453,7 +453,7 @@ input:focus-visible {
 }
 
 .terminal-panel {
-  flex: 0 1 215px;
+  flex: 0 1 285px;
 }
 
 .terminal-toolbar {

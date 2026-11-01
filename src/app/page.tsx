@@ -29,44 +29,53 @@ export default function Home() {
   const saveTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   useEffect(() => {
-    let cancelled = false;
+  let cancelled = false;
 
-    async function loadFiles() {
-      try {
-        let storedFiles = await getAllFiles();
+  async function loadFiles() {
+    try {
+      let storedFiles = await getAllFiles();
 
-        if (storedFiles.length === 0) {
-          const defaultFile = await createStoredFile("test.pseu");
-
-          await saveStoredFile({
-            ...defaultFile,
-            code: `DECLARE name : STRING
-name ← "Alice"
-OUTPUT name`,
-          });
-
-          storedFiles = await getAllFiles();
+      if (storedFiles.length === 0) {
+        try {
+          await createStoredFile(
+            "test.pseu",
+            undefined,
+            `DECLARE name : STRING
+name <- "Alice"
+OUTPUT name`
+          );
+        } catch (error) {
+          // Strict Mode 下另一次初始化可能已经创建了默认文件
+          if (
+            !(error instanceof Error) ||
+            error.message !== "File name already exists"
+          ) {
+            throw error;
+          }
         }
 
-        if (cancelled) return;
+        storedFiles = await getAllFiles();
+      }
 
-        setFiles(storedFiles);
-        setCurrentFile(storedFiles[0] ?? null);
-      } catch (error) {
-        console.error("Failed to load files:", error);
-      } finally {
-        if (!cancelled) {
-          setFileLoaded(true);
-        }
+      if (cancelled) return;
+
+      setFiles(storedFiles);
+      setCurrentFile(storedFiles[0] ?? null);
+    } catch (error) {
+      console.error("Failed to load files:", error);
+    } finally {
+      if (!cancelled) {
+        setFileLoaded(true);
       }
     }
+  }
 
-    loadFiles();
+  loadFiles();
 
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  return () => {
+    cancelled = true;
+  };
+}, []);
 
   function updateFileContent(newContent: string) {
     if (!currentFile) return;

@@ -63,7 +63,7 @@ export default function Header(props: HeaderProps) {
                 }
                 <button className={barButton} onClick={props.clearTerminal}>
                     <span className="button-icon" aria-hidden="true">⌫</span>
-                    Clear
+                    Clear Terminal
                 </button>
                 <button className={barButton} onClick={props.downloadCurrentFile} disabled={!props.selectedFile}>
                     <span className="button-icon" aria-hidden="true">↓</span>

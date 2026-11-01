@@ -120,7 +120,8 @@ export async function getFile(
 
 export async function createFile(
   name: string,
-  projectId = DEFAULT_PROJECT_ID
+  projectId = DEFAULT_PROJECT_ID,
+  initialCode = ""
 ): Promise<ProjectFile> {
   const cleanName = name.trim();
 
@@ -131,34 +132,42 @@ export async function createFile(
   const db = await openDB();
   const tx = db.transaction(STORE_NAME, "readwrite");
   const done = transactionDone(tx);
-
   const store = tx.objectStore(STORE_NAME);
 
-  const index = store.index("projectId");
-  const request = index.getAll(projectId);
-
-  const existingFiles = await requestResult<ProjectFile[]>(request);
-
-  if (existingFiles.some(file => file.name === cleanName)) {
-    tx.abort();
-    try {
-      await done;
-    } catch {
-    }
-    throw new Error("File name already exists");
-  }
+  const request = store.index("projectId").getAll(projectId);
 
   const file: ProjectFile = {
     id: crypto.randomUUID(),
     projectId,
     name: cleanName,
-    code: "",
+    code: initialCode,
     updatedAt: Date.now(),
   };
 
-  store.add(file);
+  let duplicate = false;
 
-  await done;
+  request.onsuccess = () => {
+    const existingFiles = request.result as ProjectFile[];
+
+    if (existingFiles.some((item) => item.name === cleanName)) {
+      duplicate = true;
+      tx.abort();
+      return;
+    }
+
+    // 必须在 onsuccess 回调中同步执行 add
+    store.add(file);
+  };
+
+  try {
+    await done;
+  } catch (error) {
+    if (duplicate) {
+      throw new Error("File name already exists");
+    }
+
+    throw error;
+  }
 
   return file;
 }
